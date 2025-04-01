@@ -148,7 +148,7 @@
 <body>
     <div class="container">
         <!-- Logo - Remplacez "logo.png" par le chemin de votre logo -->
-        <img src="nextlogo.png" alt="Logo" class="logo">
+        <img src="logo.png" alt="Logo" class="logo">
         
         <div id="login" class="form active">
             <h2>Connexion</h2>
@@ -313,9 +313,9 @@
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     alert("Compte créé avec succès !");
-                    // Réinitialiser le formulaire
-                    document.getElementById("signup-form").reset();
-                    // Basculer vers le formulaire de connexion
+                    document.getElementById("signup-name").value = "";
+                    document.getElementById("signup-email").value = "";
+                    document.getElementById("signup-password").value = "";
                     toggleForm();
                 })
                 .catch((error) => {
@@ -340,9 +340,8 @@
 
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    alert("Connexion réussie !");
-                    // Redirection ou autre action après connexion
-                    // window.location.href = "dashboard.html";
+                    // Redirection vers votre site Canva après connexion réussie
+                    window.location.href = "https://www.canva.com/design/ABCDEFGHIJKL/your-design"; // Remplacez par l'URL de votre site Canva
                 })
                 .catch((error) => {
                     let errorMessage = "Erreur lors de la connexion";
