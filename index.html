@@ -148,7 +148,7 @@
 <body>
     <div class="container">
         <!-- Logo - Remplacez "logo.png" par le chemin de votre logo -->
-        <img src="logo.png" alt="Logo" class="logo">
+        <img src="nextlogo.png" alt="Logo" class="logo">
         
         <div id="login" class="form active">
             <h2>Connexion</h2>
@@ -341,7 +341,7 @@
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     // Redirection vers votre site Canva après connexion réussie
-                    window.location.href = "https://www.canva.com/design/ABCDEFGHIJKL/your-design"; // Remplacez par l'URL de votre site Canva
+                    window.location.href = "https://testnextgen.my.canva.site/nextgen-site-web"; // Remplacez par l'URL de votre site Canva
                 })
                 .catch((error) => {
                     let errorMessage = "Erreur lors de la connexion";
