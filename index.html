@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion & Inscription</title>
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --error-color: #ea4335;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 350px;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        
+        .form {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .form.active {
+            display: block;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s;
+            box-sizing: border-box;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: background 0.3s, transform 0.2s;
+        }
+        
+        button:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .switch {
+            margin-top: 20px;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+        
+        .switch-btn {
+            color: var(--primary-color);
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .switch-btn:hover {
+            color: #3367d6;
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo - Remplacez "logo.png" par le chemin de votre logo -->
+        <img src="nextlogo.png" alt="Logo" class="logo">
+        
+        <div id="login" class="form active">
+            <h2>Connexion</h2>
+            <div class="input-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" placeholder="votre@email.com" required>
+                <div class="error-message" id="login-email-error"></div>
+            </div>
+            <div class="input-group">
+                <label for="login-password">Mot de passe</label>
+                <input type="password" id="login-password" placeholder="••••••••" required>
+                <div class="error-message" id="login-password-error"></div>
+            </div>
+            <button id="login-btn">Se connecter</button>
+            <p class="switch">Pas encore inscrit ? <span class="switch-btn" onclick="toggleForm()">S'inscrire</span></p>
+        </div>
+        
+        <div id="signup" class="form">
+            <h2>Inscription</h2>
+            <div class="input-group">
+                <label for="signup-name">Nom complet</label>
+                <input type="text" id="signup-name" placeholder="Votre nom" required>
+                <div class="error-message" id="signup-name-error"></div>
+            </div>
+            <div class="input-group">
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" placeholder="votre@email.com" required>
+                <div class="error-message" id="signup-email-error"></div>
+            </div>
+            <div class="input-group">
+                <label for="signup-password">Mot de passe</label>
+                <input type="password" id="signup-password" placeholder="••••••••" required>
+                <div class="error-message" id="signup-password-error"></div>
+            </div>
+            <button id="signup-btn">S'inscrire</button>
+            <p class="switch">Déjà un compte ? <span class="switch-btn" onclick="toggleForm()">Se connecter</span></p>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm() {
+            document.getElementById('login').classList.toggle('active');
+            document.getElementById('signup').classList.toggle('active');
+        }
+        
+        // Validation de base
+        document.getElementById('login-btn').addEventListener('click', function() {
+            validateLoginForm();
+        });
+        
+        document.getElementById('signup-btn').addEventListener('click', function() {
+            validateSignupForm();
+        });
+        
+        function validateLoginForm() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            let isValid = true;
+            
+            if (!email) {
+                showError('login-email-error', 'Veuillez entrer votre email');
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                showError('login-email-error', 'Email invalide');
+                isValid = false;
+            } else {
+                hideError('login-email-error');
+            }
+            
+            if (!password) {
+                showError('login-password-error', 'Veuillez entrer votre mot de passe');
+                isValid = false;
+            } else {
+                hideError('login-password-error');
+            }
+            
+            return isValid;
+        }
+        
+        function validateSignupForm() {
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            let isValid = true;
+            
+            if (!name) {
+                showError('signup-name-error', 'Veuillez entrer votre nom');
+                isValid = false;
+            } else {
+                hideError('signup-name-error');
+            }
+            
+            if (!email) {
+                showError('signup-email-error', 'Veuillez entrer votre email');
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                showError('signup-email-error', 'Email invalide');
+                isValid = false;
+            } else {
+                hideError('signup-email-error');
+            }
+            
+            if (!password) {
+                showError('signup-password-error', 'Veuillez entrer un mot de passe');
+                isValid = false;
+            } else if (password.length < 6) {
+                showError('signup-password-error', 'Le mot de passe doit faire au moins 6 caractères');
+                isValid = false;
+            } else {
+                hideError('signup-password-error');
+            }
+            
+            return isValid;
+        }
+        
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+        
+        function hideError(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+    </script>
+
+    <!-- Intégration Firebase -->
+    <script type="module">
+        // Importation des modules Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBzMi3F5vLM0bYxTY1KuBJf7eD6Nx96wsQ",
+            authDomain: "login-ec53a.firebaseapp.com",
+            projectId: "login-ec53a",
+            storageBucket: "login-ec53a.appspot.com",
+            messagingSenderId: "123644267529",
+            appId: "1:123644267529:web:5409efdf896971c655bcd8"
+        };
+
+        // Initialisation de Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Inscription d'un utilisateur
+        document.getElementById("signup-btn").addEventListener("click", function (event) {
+            event.preventDefault();
+            
+            if (!validateSignupForm()) return;
+            
+            let name = document.getElementById("signup-name").value;
+            let email = document.getElementById("signup-email").value;
+            let password = document.getElementById("signup-password").value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Compte créé avec succès !");
+                    // Réinitialiser le formulaire
+                    document.getElementById("signup-form").reset();
+                    // Basculer vers le formulaire de connexion
+                    toggleForm();
+                })
+                .catch((error) => {
+                    let errorMessage = "Erreur lors de l'inscription";
+                    if (error.code === "auth/email-already-in-use") {
+                        errorMessage = "Cet email est déjà utilisé";
+                    } else if (error.code === "auth/weak-password") {
+                        errorMessage = "Le mot de passe doit faire au moins 6 caractères";
+                    }
+                    alert(errorMessage);
+                });
+        });
+
+        // Connexion d'un utilisateur
+        document.getElementById("login-btn").addEventListener("click", function (event) {
+            event.preventDefault();
+            
+            if (!validateLoginForm()) return;
+            
+            let email = document.getElementById("login-email").value;
+            let password = document.getElementById("login-password").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Connexion réussie !");
+                    // Redirection ou autre action après connexion
+                    // window.location.href = "dashboard.html";
+                })
+                .catch((error) => {
+                    let errorMessage = "Erreur lors de la connexion";
+                    if (error.code === "auth/user-not-found") {
+                        errorMessage = "Utilisateur non trouvé";
+                    } else if (error.code === "auth/wrong-password") {
+                        errorMessage = "Mot de passe incorrect";
+                    }
+                    alert(errorMessage);
+                });
+        });
+    </script>
+</body>
+</html>
